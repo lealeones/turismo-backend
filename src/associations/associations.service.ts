@@ -17,9 +17,6 @@ export class AssociationsService {
         ...createAssociationInput,
         
         trips: {
-          
-          
-            
          
         }
       }

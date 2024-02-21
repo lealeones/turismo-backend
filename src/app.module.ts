@@ -1,23 +1,26 @@
+import { ApolloDriver,ApolloDriverConfig  } from '@nestjs/apollo'
 import { Module } from '@nestjs/common'
-import { GraphQLModule } from '@nestjs/graphql'
+
+import { TypeGraphQLModule } from 'typegraphql-nestjs'
+import { AssociationsModule } from './associations/associations.module'
 import { PrismaService } from './prisma.service'
+import { PrismaModule } from './prisma/prisma.module'
 import { PostResolver } from './resolvers.post'
 import { UserResolver } from './resolvers.user'
-import { join } from 'path'
-import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo'
-import { AssociationsModule } from './associations/associations.module';
-import { PrismaModule } from './prisma/prisma.module'
-import { TripsModule } from './trips/trips.module'
 import { TicketsModule } from './tickets/tickets.module'
+import { TripsModule } from './trips/trips.module'
+import { GraphQLTimestamp } from 'graphql-scalars'
 
 @Module({
   imports: [
-    GraphQLModule.forRoot<ApolloDriverConfig>({
-      driver: ApolloDriver,
-      autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
-      buildSchemaOptions: { dateScalarMode: 'timestamp' },
-    }),
+    
     PrismaModule,
+    TypeGraphQLModule.forRoot({
+      driver: ApolloDriver,
+      emitSchemaFile: true,
+     // scalarsMap: [{ type: Date, scalar: GraphQLTimestamp }],
+      //context: ({ req }) => ({ currentUser: req.user }),
+    }),
     TripsModule,
     TicketsModule,
     AssociationsModule,

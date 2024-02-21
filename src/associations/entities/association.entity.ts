@@ -1,10 +1,11 @@
-import { Field, ObjectType } from '@nestjs/graphql';
+//import { Field, ObjectType } from '@nestjs/graphql';
+import { Field, InputType, ObjectType } from 'type-graphql';
 import { Trip } from '../../trips/entities/trip.entity';
 
 @ObjectType()
-
+@InputType('AssociationInput')
 export class Association {
-  @Field(() => Number)
+  @Field(() => Number, { nullable: true })
   id: number;
   @Field()
   name: string;

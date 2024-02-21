@@ -1,4 +1,6 @@
-import { ObjectType, Field, Int, InputType } from '@nestjs/graphql';
+//import { ObjectType, Field, Int, InputType } from '@nestjs/graphql';
+
+import { Field, InputType, Int, ObjectType } from "type-graphql";
 
 @ObjectType()
 @InputType('TicketInput')

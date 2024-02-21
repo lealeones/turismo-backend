@@ -1,5 +1,6 @@
-import { ObjectType, Field, Int, InputType } from '@nestjs/graphql';
+//import { ObjectType, Field, Int, InputType } from '@nestjs/graphql';
 import { Ticket } from '../../tickets/entities/ticket.entity';
+import { ObjectType, InputType, Field, Int } from 'type-graphql'
 
 @ObjectType()
 @InputType('TripInput')

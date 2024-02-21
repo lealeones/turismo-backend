@@ -1,35 +1,33 @@
-import { Resolver, Query, Mutation, Args, Int, ArgsType } from '@nestjs/graphql';
-import { TripsService } from './trips.service';
+import { Arg, Mutation, Query, Resolver } from 'type-graphql';
 import { Trip } from './entities/trip.entity';
-import { CreateTripInput } from './dto/create-trip.input';
-import { UpdateTripInput } from './dto/update-trip.input';
+import { TripsService } from './trips.service';
 
 @Resolver(() => Trip)
 export class TripsResolver {
   constructor(private readonly tripsService: TripsService) { }
 
   @Mutation(() => Trip)
-  createTrip(@Args('createTripInput') createTripInput: CreateTripInput) {
+  createTrip(@Arg("input") createTripInput: Trip) {
     return this.tripsService.create(createTripInput);
   }
 
   @Query(() => [Trip], { name: 'findTrips' })
-  findAllTrips(@Args('currentWeek') currentWeek: boolean) {
+  findAllTrips(@Arg('currentWeek') currentWeek: boolean) {
     return this.tripsService.findAll(currentWeek);
   }
 
   @Query(() => Trip, { name: 'trip' })
-  findOne(@Args('id', { type: () => Int }) id: number) {
+  findOne(@Arg('id') id: number) {
     return this.tripsService.findOne(id);
   }
 
   @Mutation(() => Trip)
-  updateTrip(@Args('updateTripInput') updateTripInput: UpdateTripInput) {
+  updateTrip(@Arg("input") updateTripInput: Trip) {
     return this.tripsService.update(updateTripInput.id, updateTripInput);
   }
 
   @Mutation(() => Trip)
-  removeTrip(@Args('id', { type: () => Int }) id: number) {
+  removeTrip(@Arg('id') id: number) {
     return this.tripsService.remove(id);
   }
 }

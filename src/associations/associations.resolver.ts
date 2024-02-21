@@ -1,8 +1,6 @@
-import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
+import { Arg, Mutation, Query, Resolver } from 'type-graphql';
 import { AssociationsService } from './associations.service';
 import { Association } from './entities/association.entity';
-import { CreateAssociationInput } from './dto/create-association.input';
-import { UpdateAssociationInput } from './dto/update-association.input';
 
 @Resolver(() => Association)
 export class AssociationsResolver {
@@ -10,7 +8,7 @@ export class AssociationsResolver {
 
   @Mutation(() => Association)
   createAssociation(
-    @Args('createAssociationInput') createAssociationInput: CreateAssociationInput
+    @Arg("input") createAssociationInput: Association
   ) {
     return this.associationsService.create(createAssociationInput);
   }
@@ -21,17 +19,17 @@ export class AssociationsResolver {
   }
 
   @Query(() => Association, { name: 'association' })
-  findOne(@Args('id', { type: () => Int }) id: number) {
+  findOne(@Arg('id') id: number) {
     return this.associationsService.findOne(id);
   }
 
   @Mutation(() => Association)
-  updateAssociation(@Args('updateAssociationInput') updateAssociationInput: UpdateAssociationInput) {
+  updateAssociation(@Arg('input') updateAssociationInput: Association) {
     return this.associationsService.update(updateAssociationInput.id, updateAssociationInput);
   }
 
   @Mutation(() => Association)
-  removeAssociation(@Args('id', { type: () => Int }) id: number) {
+  removeAssociation(@Arg('id') id: number) {
     return this.associationsService.remove(id);
   }
 }
