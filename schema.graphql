@@ -4,19 +4,83 @@
 # -----------------------------------------------
 
 type Association {
+  _count: AssociationCount
+  createdAt: DateTimeISO!
   dsrc: String!
-  id: Float
+  id: Int!
   name: String!
-  trips: [Trip!]
+  updatedAt: DateTimeISO!
   urlImage: String!
 }
 
-input AssociationInput {
+type AssociationCount {
+  trips(where: TripWhereInput): Int!
+}
+
+input AssociationCreateNestedOneWithoutTripsInput {
+  connect: AssociationWhereUniqueInput
+  connectOrCreate: AssociationCreateOrConnectWithoutTripsInput
+  create: AssociationCreateWithoutTripsInput
+}
+
+input AssociationCreateOrConnectWithoutTripsInput {
+  create: AssociationCreateWithoutTripsInput!
+  where: AssociationWhereUniqueInput!
+}
+
+input AssociationCreateWithoutTripsInput {
+  createdAt: DateTimeISO
   dsrc: String!
-  id: Float
   name: String!
-  trips: [TripInput!]
+  updatedAt: DateTimeISO
   urlImage: String!
+}
+
+input AssociationRelationFilter {
+  is: AssociationWhereInput
+  isNot: AssociationWhereInput
+}
+
+input AssociationWhereInput {
+  AND: [AssociationWhereInput!]
+  NOT: [AssociationWhereInput!]
+  OR: [AssociationWhereInput!]
+  createdAt: DateTimeFilter
+  dsrc: StringFilter
+  id: IntFilter
+  name: StringFilter
+  trips: TripListRelationFilter
+  updatedAt: DateTimeFilter
+  urlImage: StringFilter
+}
+
+input AssociationWhereUniqueInput {
+  AND: [AssociationWhereInput!]
+  NOT: [AssociationWhereInput!]
+  OR: [AssociationWhereInput!]
+  createdAt: DateTimeFilter
+  dsrc: StringFilter
+  id: Int
+  name: StringFilter
+  trips: TripListRelationFilter
+  updatedAt: DateTimeFilter
+  urlImage: StringFilter
+}
+
+input BoolFilter {
+  equals: Boolean
+  not: NestedBoolFilter
+}
+
+input DateTimeFilter {
+  equals: DateTimeISO
+  gt: DateTimeISO
+  gte: DateTimeISO
+  in: [DateTimeISO!]
+  lt: DateTimeISO
+  lte: DateTimeISO
+  not: NestedDateTimeFilter
+  notIn: [DateTimeISO!]
 }
 
 """
@@ -24,86 +88,178 @@ A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `dat
 """
 scalar DateTimeISO
 
+type GetTicketResponse {
+  """message"""
+  message: String!
+
+  """status"""
+  status: Int!
+
+  """tickets"""
+  tickets: [Ticket!]
+}
+
+input IntFilter {
+  equals: Int
+  gt: Int
+  gte: Int
+  in: [Int!]
+  lt: Int
+  lte: Int
+  not: NestedIntFilter
+  notIn: [Int!]
+}
+
 type Mutation {
-  createAssociation(input: AssociationInput!): Association!
-  createTrip(input: TripInput!): Trip!
-  removeAssociation(id: Float!): Association!
-  removeTrip(id: Float!): Trip!
-  updateAssociation(input: AssociationInput!): Association!
-  updateTrip(input: TripInput!): Trip!
+  createAssociation(input: AssociationCreateWithoutTripsInput!): Association!
+  createTrip(TripCreateWithoutTicketsInput: TripCreateWithoutTicketsInput!): Trip!
+  getNewTicket(input: Float!): GetTicketResponse!
+}
+
+input NestedBoolFilter {
+  equals: Boolean
+  not: NestedBoolFilter
+}
+
+input NestedDateTimeFilter {
+  equals: DateTimeISO
+  gt: DateTimeISO
+  gte: DateTimeISO
+  in: [DateTimeISO!]
+  lt: DateTimeISO
+  lte: DateTimeISO
+  not: NestedDateTimeFilter
+  notIn: [DateTimeISO!]
+}
+
+input NestedIntFilter {
+  equals: Int
+  gt: Int
+  gte: Int
+  in: [Int!]
+  lt: Int
+  lte: Int
+  not: NestedIntFilter
+  notIn: [Int!]
+}
+
+input NestedStringFilter {
+  contains: String
+  endsWith: String
+  equals: String
+  gt: String
+  gte: String
+  in: [String!]
+  lt: String
+  lte: String
+  not: NestedStringFilter
+  notIn: [String!]
+  startsWith: String
 }
 
 type Query {
-  association(id: Float!): Association!
   associations: [Association!]!
   findTrips(currentWeek: Boolean!): [Trip!]!
-  trip(id: Float!): Trip!
+  ticketAvailable(idTrip: Int!): Float!
+  trip(id: Int!): Trip!
+}
+
+enum QueryMode {
+  default
+  insensitive
+}
+
+input StringFilter {
+  contains: String
+  endsWith: String
+  equals: String
+  gt: String
+  gte: String
+  in: [String!]
+  lt: String
+  lte: String
+  mode: QueryMode
+  not: NestedStringFilter
+  notIn: [String!]
+  startsWith: String
 }
 
 type Ticket {
-  """dni"""
+  createdAt: DateTimeISO!
   dni: Int!
-
-  """id"""
-  id: Int!
-
-  """idTrip"""
-  idTrip: Int!
-
-  """lasName"""
-  lasName: String!
-
-  """name"""
+  id: String!
+  isAdult: Boolean!
   name: String!
+  status: String!
+  tripId: Int!
+  updatedAt: DateTimeISO!
 }
 
-input TicketInput {
-  """dni"""
-  dni: Int!
+input TicketListRelationFilter {
+  every: TicketWhereInput
+  none: TicketWhereInput
+  some: TicketWhereInput
+}
 
-  """id"""
-  id: Int!
-
-  """idTrip"""
-  idTrip: Int!
-
-  """lasName"""
-  lasName: String!
-
-  """name"""
-  name: String!
+input TicketWhereInput {
+  AND: [TicketWhereInput!]
+  NOT: [TicketWhereInput!]
+  OR: [TicketWhereInput!]
+  createdAt: DateTimeFilter
+  dni: IntFilter
+  id: StringFilter
+  isAdult: BoolFilter
+  name: StringFilter
+  status: StringFilter
+  trip: TripRelationFilter
+  tripId: IntFilter
+  updatedAt: DateTimeFilter
 }
 
 type Trip {
-  """dscr"""
+  _count: TripCount
+  associationId: Int!
   dscr: String!
-
-  """id"""
   id: Int!
-
-  """startTime"""
+  nameAssociation: String
+  places: Int!
   startTime: DateTimeISO!
-
-  """dscr"""
-  ticket: [Ticket!]
-
-  """title"""
   title: String!
 }
 
-input TripInput {
-  """dscr"""
+type TripCount {
+  tickets(where: TicketWhereInput): Int!
+}
+
+input TripCreateWithoutTicketsInput {
+  association: AssociationCreateNestedOneWithoutTripsInput!
   dscr: String!
-
-  """id"""
-  id: Int!
-
-  """startTime"""
+  places: Int
   startTime: DateTimeISO!
-
-  """dscr"""
-  ticket: [TicketInput!]
-
-  """title"""
   title: String!
+}
+
+input TripListRelationFilter {
+  every: TripWhereInput
+  none: TripWhereInput
+  some: TripWhereInput
+}
+
+input TripRelationFilter {
+  is: TripWhereInput
+  isNot: TripWhereInput
+}
+
+input TripWhereInput {
+  AND: [TripWhereInput!]
+  NOT: [TripWhereInput!]
+  OR: [TripWhereInput!]
+  association: AssociationRelationFilter
+  associationId: IntFilter
+  dscr: StringFilter
+  id: IntFilter
+  places: IntFilter
+  startTime: DateTimeFilter
+  tickets: TicketListRelationFilter
+  title: StringFilter
 }

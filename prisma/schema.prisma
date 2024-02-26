@@ -1,29 +1,38 @@
 generator client {
-  provider        = "prisma-client-js"
+  provider = "prisma-client-js"
+}
+
+generator typegraphql {
+  provider = "typegraphql-prisma"
+  output   = "../prisma/generated/type-graphql"
 }
 
 datasource db {
-  provider = "sqlite"
-  url      = "file:./dev.db"
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
 model Ticket {
-  id      Int    @id @default(autoincrement())
-  name    String
-  lasName String
-  dni     Int
-  trip    Trip   @relation(fields: [idTrip], references: [id]) // A Review Instance is associated with a Project
-  idTrip  Int
+  id        String   @id @default(uuid())
+  name      String
+  isAdult   Boolean
+  dni       Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  status    String   @default("IN_PROGRESS")
+  trip      Trip     @relation(fields: [tripId], references: [id])
+  tripId    Int
 }
 
 model Trip {
-  id            Int          @id @default(autoincrement())
+  id            Int         @id @default(autoincrement())
   startTime     DateTime
   title         String
   dscr          String
-  ticket        Ticket[]
-  Association   Association? @relation(fields: [associationId], references: [id])
-  associationId Int?
+  places        Int         @default(10)
+  tickets       Ticket[]
+  association   Association @relation(fields: [associationId], references: [id])
+  associationId Int
 }
 
 model Association {
@@ -51,7 +60,6 @@ model Post {
   content   String?
   published Boolean  @default(false)
   viewCount Int      @default(0)
-  author    User?    @relation(fields: [authorId], references: [id])
-  authorId  Int?
+  author    User     @relation(fields: [authorId], references: [id])
+  authorId  Int
 }
-

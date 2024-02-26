@@ -1,0 +1,28 @@
+import "reflect-metadata";
+import { Field, InputType, Int, ObjectType } from 'type-graphql';
+import { Ticket } from "../../../prisma/generated/type-graphql";
+
+@ObjectType()
+@InputType('TripInput')
+export class Trip {
+  @Field(() => Int, { nullable: true, description: 'id' })
+  id: number;
+  @Field(() => Date, { description: 'startTime' })
+  startTime: Date;
+  @Field(() => String, { description: 'title' })
+  title: string;
+  @Field(() => String, { description: 'dscr' })
+  dscr: string;
+  @Field(() => [Ticket], { nullable: true, description: 'dscr' })
+  ticket: Ticket[];
+  @Field(() => Int, { description: 'associationId' })
+  associationId: number;
+  @Field(() => Int, { nullable: true, description: 'places' })
+  places: number;
+  @Field(() => String, { nullable: true, description: 'nameAssociation' })
+  nameAssociation: string;
+}
+export class TripSubscription {
+  @Field(() => String, { nullable: true, description: 'event' })
+  event: string;
+}
