@@ -2,6 +2,7 @@ import * as TypeGraphQL from "type-graphql";
 import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
+import { SortOrderInput } from "../inputs/SortOrderInput";
 import { TicketAvgOrderByAggregateInput } from "../inputs/TicketAvgOrderByAggregateInput";
 import { TicketCountOrderByAggregateInput } from "../inputs/TicketCountOrderByAggregateInput";
 import { TicketMaxOrderByAggregateInput } from "../inputs/TicketMaxOrderByAggregateInput";
@@ -16,35 +17,35 @@ export class TicketOrderByWithAggregationInput {
   })
   id?: "asc" | "desc" | undefined;
 
-  @TypeGraphQL.Field(_type => SortOrder, {
+  @TypeGraphQL.Field(_type => SortOrderInput, {
     nullable: true
   })
-  name?: "asc" | "desc" | undefined;
+  name?: SortOrderInput | undefined;
 
-  @TypeGraphQL.Field(_type => SortOrder, {
+  @TypeGraphQL.Field(_type => SortOrderInput, {
     nullable: true
   })
-  isAdult?: "asc" | "desc" | undefined;
+  isAdult?: SortOrderInput | undefined;
 
-  @TypeGraphQL.Field(_type => SortOrder, {
+  @TypeGraphQL.Field(_type => SortOrderInput, {
     nullable: true
   })
-  dni?: "asc" | "desc" | undefined;
+  dni?: SortOrderInput | undefined;
 
-  @TypeGraphQL.Field(_type => SortOrder, {
+  @TypeGraphQL.Field(_type => SortOrderInput, {
     nullable: true
   })
-  createdAt?: "asc" | "desc" | undefined;
+  createdAt?: SortOrderInput | undefined;
 
-  @TypeGraphQL.Field(_type => SortOrder, {
+  @TypeGraphQL.Field(_type => SortOrderInput, {
     nullable: true
   })
-  updatedAt?: "asc" | "desc" | undefined;
+  updatedAt?: SortOrderInput | undefined;
 
-  @TypeGraphQL.Field(_type => SortOrder, {
+  @TypeGraphQL.Field(_type => SortOrderInput, {
     nullable: true
   })
-  status?: "asc" | "desc" | undefined;
+  status?: SortOrderInput | undefined;
 
   @TypeGraphQL.Field(_type => SortOrder, {
     nullable: true

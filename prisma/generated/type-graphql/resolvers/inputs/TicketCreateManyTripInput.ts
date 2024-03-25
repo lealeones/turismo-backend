@@ -11,19 +11,19 @@ export class TicketCreateManyTripInput {
   id?: string | undefined;
 
   @TypeGraphQL.Field(_type => String, {
-    nullable: false
+    nullable: true
   })
-  name!: string;
+  name?: string | undefined;
 
   @TypeGraphQL.Field(_type => Boolean, {
-    nullable: false
+    nullable: true
   })
-  isAdult!: boolean;
+  isAdult?: boolean | undefined;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
-    nullable: false
+    nullable: true
   })
-  dni!: number;
+  dni?: number | undefined;
 
   @TypeGraphQL.Field(_type => Date, {
     nullable: true

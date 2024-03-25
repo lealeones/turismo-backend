@@ -67,9 +67,9 @@ input AssociationWhereUniqueInput {
   urlImage: StringFilter
 }
 
-input BoolFilter {
+input BoolNullableFilter {
   equals: Boolean
-  not: NestedBoolFilter
+  not: NestedBoolNullableFilter
 }
 
 input DateTimeFilter {
@@ -87,6 +87,17 @@ input DateTimeFilter {
 A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `date-time` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar.This scalar is serialized to a string in ISO 8601 format and parsed from a string in ISO 8601 format.
 """
 scalar DateTimeISO
+
+input DateTimeNullableFilter {
+  equals: DateTimeISO
+  gt: DateTimeISO
+  gte: DateTimeISO
+  in: [DateTimeISO!]
+  lt: DateTimeISO
+  lte: DateTimeISO
+  not: NestedDateTimeNullableFilter
+  notIn: [DateTimeISO!]
+}
 
 type GetTicketResponse {
   """message"""
@@ -110,15 +121,27 @@ input IntFilter {
   notIn: [Int!]
 }
 
+input IntNullableFilter {
+  equals: Int
+  gt: Int
+  gte: Int
+  in: [Int!]
+  lt: Int
+  lte: Int
+  not: NestedIntNullableFilter
+  notIn: [Int!]
+}
+
 type Mutation {
   createAssociation(input: AssociationCreateWithoutTripsInput!): Association!
   createTrip(TripCreateWithoutTicketsInput: TripCreateWithoutTicketsInput!): Trip!
   getNewTicket(input: Float!): GetTicketResponse!
+  reserveTickets(idTrip: Float!, reservedTickets: Float!): GetTicketResponse!
 }
 
-input NestedBoolFilter {
+input NestedBoolNullableFilter {
   equals: Boolean
-  not: NestedBoolFilter
+  not: NestedBoolNullableFilter
 }
 
 input NestedDateTimeFilter {
@@ -129,6 +152,17 @@ input NestedDateTimeFilter {
   lt: DateTimeISO
   lte: DateTimeISO
   not: NestedDateTimeFilter
+  notIn: [DateTimeISO!]
+}
+
+input NestedDateTimeNullableFilter {
+  equals: DateTimeISO
+  gt: DateTimeISO
+  gte: DateTimeISO
+  in: [DateTimeISO!]
+  lt: DateTimeISO
+  lte: DateTimeISO
+  not: NestedDateTimeNullableFilter
   notIn: [DateTimeISO!]
 }
 
@@ -143,6 +177,17 @@ input NestedIntFilter {
   notIn: [Int!]
 }
 
+input NestedIntNullableFilter {
+  equals: Int
+  gt: Int
+  gte: Int
+  in: [Int!]
+  lt: Int
+  lte: Int
+  not: NestedIntNullableFilter
+  notIn: [Int!]
+}
+
 input NestedStringFilter {
   contains: String
   endsWith: String
@@ -153,6 +198,20 @@ input NestedStringFilter {
   lt: String
   lte: String
   not: NestedStringFilter
+  notIn: [String!]
+  startsWith: String
+}
+
+input NestedStringNullableFilter {
+  contains: String
+  endsWith: String
+  equals: String
+  gt: String
+  gte: String
+  in: [String!]
+  lt: String
+  lte: String
+  not: NestedStringNullableFilter
   notIn: [String!]
   startsWith: String
 }
@@ -184,15 +243,30 @@ input StringFilter {
   startsWith: String
 }
 
+input StringNullableFilter {
+  contains: String
+  endsWith: String
+  equals: String
+  gt: String
+  gte: String
+  in: [String!]
+  lt: String
+  lte: String
+  mode: QueryMode
+  not: NestedStringNullableFilter
+  notIn: [String!]
+  startsWith: String
+}
+
 type Ticket {
-  createdAt: DateTimeISO!
-  dni: Int!
+  createdAt: DateTimeISO
+  dni: Int
   id: String!
-  isAdult: Boolean!
-  name: String!
-  status: String!
+  isAdult: Boolean
+  name: String
+  status: String
   tripId: Int!
-  updatedAt: DateTimeISO!
+  updatedAt: DateTimeISO
 }
 
 input TicketListRelationFilter {
@@ -205,15 +279,15 @@ input TicketWhereInput {
   AND: [TicketWhereInput!]
   NOT: [TicketWhereInput!]
   OR: [TicketWhereInput!]
-  createdAt: DateTimeFilter
-  dni: IntFilter
+  createdAt: DateTimeNullableFilter
+  dni: IntNullableFilter
   id: StringFilter
-  isAdult: BoolFilter
-  name: StringFilter
-  status: StringFilter
+  isAdult: BoolNullableFilter
+  name: StringNullableFilter
+  status: StringNullableFilter
   trip: TripRelationFilter
   tripId: IntFilter
-  updatedAt: DateTimeFilter
+  updatedAt: DateTimeNullableFilter
 }
 
 type Trip {

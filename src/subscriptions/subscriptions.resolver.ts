@@ -10,10 +10,7 @@ export class SubscriptionsResolver {
   @Subscription(() => String, {
     resolve: value => value,
   })
-  newTrips() {
-    return pubSub.subscribe('NEW_TRIP');
-  }
-
+  newTrips() { return pubSub.subscribe('NEW_TRIP') }
 
   @Subscription(() => Number, {
     filter: (payload, variables) => (payload.idTrip === +variables.idTrip),

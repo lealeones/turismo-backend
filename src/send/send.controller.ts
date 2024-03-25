@@ -6,6 +6,13 @@ import { pubSub } from '../pubsub/pubsub';
 export class SendController {
   constructor(private readonly sendService: SendService) { }
 
+
+  @Get('backdoor')
+  backdoor() {
+    console.log("BACKDOOR")
+  }
+
+
   @Get()
   getHello() {
     console.log("HOLA MUNDO")

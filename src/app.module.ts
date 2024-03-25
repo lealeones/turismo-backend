@@ -13,6 +13,7 @@ import { SendModule } from './send/send.module';
 import { SubscriptionsModule } from './subscriptions/subscriptions.module';
 import { TicketsTransactionModule } from './tickets-transaction/tickets-transaction.module';
 import { TripsModule } from './trips/trips.module';
+import { ScheduleModule } from "@nestjs/schedule";
 
 @Module({
   imports: [
@@ -32,7 +33,7 @@ import { TripsModule } from './trips/trips.module';
       autoSchemaFile: 'schema-subs.gql',
       path: '/ws',
     }),
-    //TicketsModule, //PROBLEM
+    ScheduleModule.forRoot(),
     TripsModule,
     AssociationsModule,
     SendModule,
